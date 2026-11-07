@@ -130,7 +130,7 @@ function render(){
  sorted.forEach((r,i)=>{
   const tr=document.createElement('tr');tr.dataset.well=r.well;tr.className=(completed.has(r.well)?'completed ':'')+(selected===r.well?'active':'');
   const make=(v)=>{const td=document.createElement('td');td.textContent=String(v);tr.append(td)};
-  const td=document.createElement('td'),check=document.createElement('input');check.type='checkbox';check.className='checkbox';check.checked=completed.has(r.well);check.setAttribute('aria-label',tr('done')+' '+r.well);check.addEventListener('change',()=>{check.checked?completed.add(r.well):completed.delete(r.well);render()});td.append(check);tr.append(td);
+  const td=document.createElement('td'),check=document.createElement('input');check.type='checkbox';check.className='checkbox';check.checked=completed.has(r.well);check.setAttribute('aria-label',i18nDynamic[currentLanguage].done+' '+r.well);check.addEventListener('change',()=>{check.checked?completed.add(r.well):completed.delete(r.well);render()});td.append(check);tr.append(td);
   make(i+1);make(r.well);make(fmt(r.c,1));make(fmt(r.v,precision));make(fmt(Number($('water').value),1));make(fmt(r.resulting,1));make(fmt(r.final,precision));make(r.warnings.join('; ')||'—');
   tr.addEventListener('click',e=>{if(e.target===check)return;selected=r.well;render()});rows.append(tr);
  });
