@@ -143,24 +143,22 @@ $('calculate').addEventListener('click',calculate);
 $('example').addEventListener('click',()=>{$('input').value=example.map(r=>r.join('\t')).join('\n');completed.clear();selected=null;calculate()});
 $('clear').addEventListener('click',()=>{$('input').value='';calculate()});
 for(const id of ['water','limit','target','decimals','minPip','maxWell','input'])$(id).addEventListener('input',calculate);
-
 $('resetDone').addEventListener('click', () => {
-  if (completed.size === 0) return;
-
   const messages = {
-    pt: 'Tem certeza de que deseja apagar todas as marcações? Esta ação não pode ser desfeita.',
-    en: 'Are you sure you want to reset all completed checkmarks? This action cannot be undone.',
-    de: 'Möchten Sie wirklich alle Markierungen zurücksetzen? Diese Aktion kann nicht rückgängig gemacht werden.'
+    pt: 'Tem certeza de que deseja apagar todas as marcações?',
+    en: 'Are you sure you want to reset all checkmarks?',
+    de: 'Möchten Sie wirklich alle Markierungen zurücksetzen?'
   };
 
-  if (!window.confirm(messages[currentLanguage] || messages.en)) {
-    return;
-  }
+  const confirmed = window.confirm(
+    messages[currentLanguage] || messages.en
+  );
+
+  if (!confirmed) return;
 
   completed.clear();
   render();
 });
-
 $('copy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(tsv());$('copy').textContent=tr('copied');setTimeout(()=>$('copy').textContent=i18nStatic[currentLanguage][28],1400)}catch(_){const ta=document.createElement('textarea');ta.value=tsv();document.body.append(ta);ta.select();document.execCommand('copy');ta.remove();alert(tr('copiedAlert'))}});
 $('csv').addEventListener('click',()=>{const content=tsv().split('\n').map(line=>line.split('\t').map(v=>'"'+v.replaceAll('"','""')+'"').join(';')).join('\r\n');const blob=new Blob(['\ufeff'+content],{type:'text/csv;charset=utf-8;'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='plateflow_sequencia_pipetagem.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)});
 $('print').addEventListener('click',()=>window.print());
