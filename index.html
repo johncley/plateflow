@@ -79,7 +79,7 @@ function parsePlate(raw){
   if(cells[0]===''&&cells.length===13)cells=cells.slice(1);
   if(cells.length!==12)throw Error(tr('rowCount',{n:out.length+1,got:cells.length}));
   const parsed=cells.map(s=>Number(s.replace(',','.')));
-  if(parsed.some(x=>!Number.isFinite(x)||x<0))throw Error(tr('invalid',{n:out.length+1}));
+  if(parsed.some(x=>!Number.isFinite(x)))throw Error(tr('invalid',{n:out.length+1}));
   out.push(parsed);
  }
  if(out.length!==8)throw Error(tr('plateCount',{n:out.length}));
